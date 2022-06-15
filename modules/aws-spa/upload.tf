@@ -5,11 +5,13 @@ module "upload" {
   bucket                = aws_s3_bucket.this.bucket
   base_folder_path      = var.dist
   source_prefix         = var.dist
+  server_side_encryption = "AES256"
 
   file_glob_pattern     = "**"
   set_auto_content_type = true
 
-  depends_on = [
-    null_resource.build
-  ]
+
+//  depends_on = [
+//    null_resource.build
+//  ]
 }

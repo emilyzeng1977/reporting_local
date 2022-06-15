@@ -26,7 +26,7 @@ remote_state {
   config = {
     encrypt        = true
     region         = local.state_bucket_region
-    key            = "reporting/${path_relative_to_include()}/terraform.tfstate"
+    key            = "reporting_local/${path_relative_to_include()}/terraform.tfstate"
     bucket         = "tfstate-${local.account_id}.identitii.com"
     dynamodb_table = "tfstate-${local.account_id}"
   }
