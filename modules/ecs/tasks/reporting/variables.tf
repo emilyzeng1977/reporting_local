@@ -64,3 +64,7 @@ variable "vpc_id" {
   type        = string
   description = "VPC id"
 }
+
+output "aws_alb" {
+  value = aws_alb.application_load_balancer.dns_name
+}
