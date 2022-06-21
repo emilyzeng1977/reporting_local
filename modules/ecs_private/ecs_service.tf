@@ -1,5 +1,5 @@
 resource "aws_ecs_service" "hello_world" {
-  name            = "hello-world-service"
+  name            = var.task_name
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.hello_world.arn
   desired_count   = var.app_count
@@ -12,7 +12,7 @@ resource "aws_ecs_service" "hello_world" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.hello_world.id
-    container_name   = "hello-world-app"
+    container_name   = aws_ecs_task_definition.hello_world.family
     container_port   = 3000
   }
 
