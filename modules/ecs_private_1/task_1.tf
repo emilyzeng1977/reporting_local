@@ -58,10 +58,10 @@ resource "aws_ecs_service" "nginx" {
     subnets         = aws_subnet.private.*.id
   }
 
-  service_registries {
-    registry_arn = aws_service_discovery_service.simple-stack-nginx.arn
-    container_name = "nginx"
-  }
+//  service_registries {
+//    registry_arn = aws_service_discovery_service.simple-stack-nginx.arn
+//    container_name = "nginx"
+//  }
 
   load_balancer {
     target_group_arn = aws_lb_target_group.nginx.id

@@ -29,6 +29,11 @@ resource "aws_lb_target_group" "nginx" {
   protocol    = "HTTP"
   vpc_id      = aws_vpc.default.id
   target_type = "ip"
+
+  health_check {
+    matcher = "200,301,302"
+    path = "/"
+  }
 }
 
 resource "aws_lb_listener" "nginx" {
