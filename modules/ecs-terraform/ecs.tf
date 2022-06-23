@@ -7,6 +7,7 @@ resource "aws_ecs_cluster" "main" {
 resource "aws_ecs_task_definition" "nginx" {
   family                   = "${var.ecs_service_name}-nginx-task"
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  task_role_arn            = aws_iam_role.task_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.nginx_fargate_cpu
@@ -19,6 +20,9 @@ resource "aws_ecs_task_definition" "nginx" {
             cpu = var.nginx_fargate_cpu
             memory = var.nginx_fargate_memory
             networkMode = "awsvpc"
+            environment = [
+
+            ]
             logConfiguration = {
                 logDriver = "awslogs"
                 options = {
@@ -42,6 +46,7 @@ resource "aws_ecs_service" "nginx" {
   task_definition = aws_ecs_task_definition.nginx.arn
   desired_count   = var.nginx_count
   launch_type     = "FARGATE"
+  enable_execute_command = true
 
   network_configuration {
     security_groups  = [aws_security_group.nginx_task.id]

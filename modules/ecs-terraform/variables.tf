@@ -27,6 +27,11 @@ variable "ecs_task_execution_role_name" {
   default = "myEcsTaskExecutionRole"
 }
 
+variable "task_role_name" {
+  description = "ECS task role name"
+  default = "myEcsTaskRole"
+}
+
 variable "ecs_auto_scale_role_name" {
   description = "ECS auto scale role Name"
   default = "myEcsAutoScaleRole"

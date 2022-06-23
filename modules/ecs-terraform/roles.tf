@@ -25,6 +25,49 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
+# ECS task execution role
+resource "aws_iam_role" "task_role" {
+  name               = var.task_role_name
+  assume_role_policy = data.aws_iam_policy_document.ecs_task_execution_role.json
+  managed_policy_arns = [
+    "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole",
+    aws_iam_policy.ecs_task_policy.arn
+  ]
+}
+
+resource "aws_iam_policy" "ecs_task_policy" {
+  name = "ecs_task_policy"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action   = ["ssmmessages:CreateControlChannel",
+          "ssmmessages:CreateDataChannel",
+          "ssmmessages:OpenControlChannel",
+          "ssmmessages:OpenDataChannel"
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+      {
+        Action   = ["logs:DescribeLogGroups"]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+      {
+        Action   = [
+          "logs:CreateLogStream",
+          "logs:DescribeLogStreams",
+          "logs:PutLogEvents"
+        ]
+        Effect   = "Allow"
+        Resource = "arn:aws:logs:ap-southeast-2:204532658794:log-group:/aws/ecs/simple-app-cluster:*"
+      }
+    ]
+  })
+}
+
 //# ECS auto scale role data
 //data "aws_iam_policy_document" "ecs_auto_scale_role" {
 //  version = "2012-10-17"
