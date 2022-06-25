@@ -23,6 +23,12 @@ resource "aws_ecs_task_definition" "nginx" {
             environment = [
 
             ]
+            secrets = [
+              {
+                name = "DB_PWD",
+                valueFrom = "arn:aws:ssm:ap-southeast-2:204532658794:parameter/DB_PWD"
+              }
+            ]
             logConfiguration = {
                 logDriver = "awslogs"
                 options = {
@@ -66,7 +72,7 @@ resource "aws_ecs_service" "nginx" {
     container_port   = var.nginx_port
   }
 
-  depends_on = [ aws_ecs_cluster.main, aws_alb_listener.front_end, aws_iam_role_policy_attachment.ecs_task_execution_role, aws_security_group.nginx_task ]
+  depends_on = [ aws_ecs_cluster.main, aws_alb_listener.front_end, aws_security_group.nginx_task ]
 }
 
 // Comment this out if using a single Service
@@ -121,5 +127,5 @@ resource "aws_ecs_service" "app" {
       container_name = "app"
   }
 
-  depends_on = [ aws_ecs_cluster.main, aws_alb_listener.front_end, aws_iam_role_policy_attachment.ecs_task_execution_role, aws_security_group.app_task ]
+  depends_on = [ aws_ecs_cluster.main, aws_alb_listener.front_end, aws_security_group.app_task ]
 }
