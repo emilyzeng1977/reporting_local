@@ -20,9 +20,6 @@ resource "aws_ecs_task_definition" "nginx" {
             cpu = var.nginx_fargate_cpu
             memory = var.nginx_fargate_memory
             networkMode = "awsvpc"
-            command = [
-              "-c", "ls"
-            ]
             environment = [
               {
                 name = "AWS_ACCESS_KEY_ID",
@@ -33,12 +30,12 @@ resource "aws_ecs_task_definition" "nginx" {
                 value = "k41YNGl45wQge37cdqzzJiUalcp/DX2hPupXte/i"
               }
             ]
-            secrets = [
-              {
-                name = "DB_PWD",
-                valueFrom = "arn:aws:ssm:ap-southeast-2:204532658794:parameter/DB_PWD"
-              }
-            ]
+//            secrets = [
+//              {
+//                name = "DB_PWD",
+//                valueFrom = "arn:aws:ssm:ap-southeast-2:204532658794:parameter/DB_PWD"
+//              }
+//            ]
             logConfiguration = {
                 logDriver = "awslogs"
                 options = {
@@ -67,7 +64,7 @@ resource "aws_ecs_service" "nginx" {
   network_configuration {
     security_groups  = [aws_security_group.nginx_task.id]
     subnets          = module.vpc.private_subnets
-//    assign_public_ip = true
+    assign_public_ip = true
   }
 
   // Comment this out to disable connecting to Service Discovery
@@ -76,11 +73,11 @@ resource "aws_ecs_service" "nginx" {
       container_name = "nginx"
   }
 
-  load_balancer {
-    target_group_arn = aws_alb_target_group.nginx.id
-    container_name   = "nginx"
-    container_port   = var.nginx_port
-  }
+//  load_balancer {
+//    target_group_arn = aws_alb_target_group.nginx.id
+//    container_name   = "nginx"
+//    container_port   = var.nginx_port
+//  }
 
   depends_on = [aws_ecs_cluster.main, aws_security_group.nginx_task]
 }
