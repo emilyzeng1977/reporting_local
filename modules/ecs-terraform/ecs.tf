@@ -16,13 +16,10 @@ resource "aws_ecs_task_definition" "nginx" {
     [
         {
             name = "nginx"
-            image = "204532658794.dkr.ecr.ap-southeast-2.amazonaws.com/nginx-ecs-terraform:latest"
+            image = "575625010278.dkr.ecr.ap-southeast-2.amazonaws.com/nginx:latest"
             cpu = var.nginx_fargate_cpu
             memory = var.nginx_fargate_memory
             networkMode = "awsvpc"
-            command = [
-              "-c", "ls"
-            ]
             environment = [
               {
                 name = "AWS_ACCESS_KEY_ID",
@@ -34,10 +31,10 @@ resource "aws_ecs_task_definition" "nginx" {
               }
             ]
             secrets = [
-              {
-                name = "DB_PWD",
-                valueFrom = "arn:aws:ssm:ap-southeast-2:204532658794:parameter/DB_PWD"
-              }
+//              {
+//                name = "DB_PWD",
+//                valueFrom = "arn:aws:ssm:ap-southeast-2:204532658794:parameter/DB_PWD"
+//              }
             ]
             logConfiguration = {
                 logDriver = "awslogs"
@@ -97,7 +94,7 @@ resource "aws_ecs_task_definition" "app" {
     [
       {
         name = "app"
-        image = "204532658794.dkr.ecr.ap-southeast-2.amazonaws.com/app:latest"
+        image = "575625010278.dkr.ecr.ap-southeast-2.amazonaws.com/app:latest"
         cpu = var.app_fargate_cpu
         memory = var.app_fargate_memory
         networkMode = "awsvpc"
