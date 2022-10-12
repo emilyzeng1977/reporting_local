@@ -16,7 +16,7 @@ resource "aws_ecs_task_definition" "nginx" {
     [
         {
             name = "nginx"
-            image = "575625010278.dkr.ecr.ap-southeast-2.amazonaws.com/nginx:latest"
+            image = "179042700582.dkr.ecr.ap-southeast-2.amazonaws.com/nginx:latest"
             cpu = var.nginx_fargate_cpu
             memory = var.nginx_fargate_memory
             networkMode = "awsvpc"
@@ -94,7 +94,7 @@ resource "aws_ecs_task_definition" "app" {
     [
       {
         name = "app"
-        image = "575625010278.dkr.ecr.ap-southeast-2.amazonaws.com/app:latest"
+        image = "179042700582.dkr.ecr.ap-southeast-2.amazonaws.com/app:latest"
         cpu = var.app_fargate_cpu
         memory = var.app_fargate_memory
         networkMode = "awsvpc"
