@@ -19,16 +19,3 @@ output "private_subnets" {
 output "alb_listener_arn" {
   value = aws_alb_listener.front_end.arn
 }
-
-
-//output "alb_nginx_port" {
-//  value = nginx_port
-//}
-
-//output "alb_app_dns_name" {
-//    value = aws_alb.main.dns_name
-//}
-//
-//output "alb_app_arn" {
-//    value = aws_alb.main.arn
-//}
